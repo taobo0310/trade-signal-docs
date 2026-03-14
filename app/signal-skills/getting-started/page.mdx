@@ -1,0 +1,121 @@
+---
+title: 快速开始
+description: 下载 Signal Skills 并配置 MCP 连接
+---
+
+## 1. 下载技能包
+
+前往 [下载页面](/signal-skills/download) 获取最新版本，解压到本地任意目录。
+
+## 2. 配置 MCP 连接
+
+技能包通过 MCP 协议连接 Signal Feed 数据服务。包内已提供 `.mcp.json.example` 模板，复制并填入实际值即可。
+
+| 配置项 | 说明 |
+|--------|------|
+| Server URL | `<Feed 服务地址>/mcp` |
+| 认证方式 | `x-api-key` header |
+
+### Cursor
+
+**步骤 A：配置 MCP 连接**
+
+将 `.mcp.json.example` 复制为 `.cursor/mcp.json`，填入 Feed 服务地址和 API Key：
+
+```json
+{
+  "mcpServers": {
+    "trade-signal": {
+      "type": "http",
+      "url": "<Feed 服务地址>/mcp",
+      "headers": {
+        "x-api-key": "<你的 API Key>"
+      }
+    }
+  }
+}
+```
+
+也可通过 Cursor Settings → MCP 配置。
+
+**步骤 B：加载技能包**
+
+**方式 1：打开技能包目录**
+
+用 Cursor 打开解压后的 `trade-signal-skills/` 目录，AI 自动加载 `.cursorrules`。
+
+**方式 2：配置为全局 Agent Skills（推荐，跨项目生效）**
+
+在 Cursor Settings → Features → Agent Skills 中添加路由技能：
+
+| 技能 | 路径 |
+|------|------|
+| feed 路由 | `<解压路径>/feed/feed-data-tools/SKILL.md` |
+| analysis 路由 | `<解压路径>/analysis/analysis-router/SKILL.md` |
+
+配置后在任何项目中对话即可自动触发技能包。
+
+### Claude Code
+
+将 `.mcp.json.example` 复制为 `.mcp.json`（或添加到 `~/.claude.json`），填入实际值：
+
+```json
+{
+  "mcpServers": {
+    "trade-signal": {
+      "type": "http",
+      "url": "<Feed 服务地址>/mcp",
+      "headers": {
+        "x-api-key": "<你的 API Key>"
+      }
+    }
+  }
+}
+```
+
+包内已自带 `.claude/settings.json`，自动启用 MCP 权限，无需额外配置。在解压目录下运行 `claude`，AI 会读取 `CLAUDE.md` 和 `soul.md`。
+
+### Windsurf
+
+用 Windsurf 打开解压后的 `trade-signal-skills/` 目录，AI 自动加载 `.windsurfrules`。MCP 配置方式与 Cursor 类似，在工具设置中添加：
+
+| 配置项 | 值 |
+|--------|------|
+| Server Name | `trade-signal` |
+| Type | `http` |
+| URL | `<Feed 服务地址>/mcp` |
+| Header | `x-api-key: <你的 API Key>` |
+
+## 3. 开始使用
+
+配置完成后，直接在对话中提问即可。AI 会自动路由到对应的数据查询或分析技能。
+
+**数据查询示例**：
+
+- 「帮我选市盈率低于 20 的白酒股」
+- 「今天 A 股市场怎么样」
+- 「贵州茅台今天行情怎么样」
+- 「近一年 PMI 趋势」
+- 「510300 这只基金怎么样」
+
+**分析报告示例**：
+
+- 「帮我分析一下贵州茅台」→ 个股深度分析
+- 「白酒行业哪家估值最低」→ 行业对比分析
+- 「帮我复盘一下今天」→ 今日复盘
+- 「降息对股市有什么影响」→ 宏观经济月报
+
+## 切换 AI Soul
+
+默认 Soul 为**均衡型助手**（专业理性，风控时更直接）。如需切换风格，从 [AI Soul](/signal-skills/souls) 页面复制对应风格的完整内容，替换到技能包根目录的 `soul.md` 即可。
+
+| 风格 | 特点 |
+|------|------|
+| **均衡型助手**（默认） | 专业理性，结论先行，风控时更直接 |
+| 毒舌老手 | 犀利直接，擅长打断情绪化操作 |
+| 老练师父 | 温和耐心，强调纪律与教学 |
+| 冷静分析师 | 数据优先，弱情绪、强结构 |
+
+## API Key 获取
+
+API Key 通过 [授权申请](/signal-client/apply) 获取。授权用户同时拥有客户端使用权限和 API Key。

@@ -14,5 +14,9 @@ export default {
   "signal-feed": {
     type: "page",
     title: "数据接口库"
+  },
+  "signal-skills": {
+    type: "page",
+    title: "AI 技能包"
   }
 };

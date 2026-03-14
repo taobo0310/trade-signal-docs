@@ -1,0 +1,37 @@
+---
+title: 下载
+description: 下载 Signal Skills 技能包
+---
+
+import SkillsDownload from '@/components/SkillsDownload'
+
+## 最新版本
+
+<SkillsDownload />
+
+## 包内结构
+
+下载并解压后，目录结构如下：
+
+```
+trade-signal-skills/
+├── CLAUDE.md              # Claude Code 入口
+├── .cursorrules           # Cursor 入口
+├── .windsurfrules         # Windsurf 入口
+├── .mcp.json.example      # MCP 连接配置模板
+├── .claude/settings.json  # Claude Code MCP 权限（自动启用）
+├── soul.md                # AI Soul（默认：均衡型助手）
+├── README.md              # 完整使用说明
+├── feed/                  # 数据查询技能（6 个）
+└── analysis/              # 分析报告技能（8 个）
+```
+
+## 使用前提
+
+| 条件 | 说明 |
+|------|------|
+| AI 平台 | Cursor、Claude Code、Windsurf 或 GitHub Copilot（需支持 MCP） |
+| API Key | 通过 [授权申请](/signal-client/apply) 获取 |
+| 网络 | 可访问 Signal Feed 服务 |
+
+下载后的配置步骤见 [快速开始](/signal-skills/getting-started)。

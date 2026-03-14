@@ -30,13 +30,12 @@ const features = [
   },
   {
     icon: Bot,
-    title: "在线 AI",
+    title: "AI 技能包",
     description:
-      "智能股票分析助手在线版，提供个股分析、选股选基金、多股对比等专业分析能力，即将上线",
-    href: "#",
-    cta: "敬请期待",
-    primary: false,
-    disabled: true
+      "可在 Claude、Cursor 等 AI 工具中直接查询金融数据、分析个股与市场",
+    href: "/signal-skills",
+    cta: "了解更多",
+    primary: false
   }
 ];
 
@@ -64,8 +63,8 @@ export default function Home() {
                   整合多维度市场数据，提供专业的投资分析工具，智能追踪市场动态，发现潜在投资机会。
                 </p>
                 <p>
-                  从分析工具、投资指南到数据接口与在线
-                  AI，助您系统化完成从市场分析到投资决策的全流程，为投资决策提供可靠支撑。
+                  从分析工具、投资指南到数据接口与
+                  AI 技能包，助您系统化完成从市场分析到投资决策的全流程，为投资决策提供可靠支撑。
                 </p>
               </div>
               <Link

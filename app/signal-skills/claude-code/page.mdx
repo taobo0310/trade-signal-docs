@@ -1,0 +1,244 @@
+---
+title: Claude Code 简介
+description: Claude Code 功能介绍、Plan 模式、常用命令与使用技巧
+---
+
+import Link from 'next/link'
+
+## 什么是 Claude Code
+
+Claude Code 是 Anthropic 官方推出的 AI 命令行工具，将 Claude 大模型集成到终端环境中。它能理解整个项目结构、执行多文件操作、管理 Git 提交，是 Signal Skills 支持的核心 AI 平台之一。
+
+{/* 截图占位：/imgs/claude-code/terminal-overview.png */}
+<div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 text-center text-gray-400 dark:text-gray-500 my-4">
+  📷 terminal-overview.png — Claude Code 终端界面，展示对话交互的整体效果
+</div>
+
+### 核心特性
+
+| 特性 | 说明 |
+|------|------|
+| **自然语言交互** | 用日常语言描述需求，AI 自动完成操作 |
+| **代码库理解** | 自动分析项目结构和文件关系 |
+| **多文件操作** | 同时读取、修改、创建多个文件 |
+| **Git 集成** | 智能提交、分支管理、PR 创建 |
+| **Plan 模式** | 针对复杂任务先规划后执行，避免盲目修改 |
+| **MCP 协议** | 原生支持 MCP，可直接连接 Signal Skills 数据服务 |
+| **Plugins 扩展** | 通过插件市场扩展功能，集成第三方工具 |
+
+### 为什么用 Claude Code 做投研
+
+配合 Signal Skills 使用时，Claude Code 相比传统方式有明显优势：
+
+| 传统方式 | Claude Code + Signal Skills |
+|----------|----------------------------|
+| 手动打开多个网站查数据 | 对话中直接查询，数据自动聚合 |
+| 自己写分析框架和模板 | 内置专业分析技能，自动生成结构化报告 |
+| 切换多个工具完成不同任务 | 一个终端覆盖行情、选股、诊断、复盘 |
+| 分析结果需要手动整理 | AI 按投资理念自动输出结论和行动建议 |
+
+### 适用场景
+
+- **数据查询**：实时行情、选股筛选、宏观指标、基金详情
+- **深度分析**：个股诊断、行业对比、基金评估
+- **定期报告**：市场日报/周报、今日复盘、宏观经济月报
+- **快速原型**：用 AI 辅助搭建分析工具和可视化脚本
+
+<Link href="/signal-skills/claude-code/setup" className="inline-block px-6 py-3 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors font-medium shadow-sm hover:shadow no-underline mt-4">开始安装 →</Link>
+
+---
+
+## Plan 模式
+
+Plan 模式是 Claude Code 最强大的能力之一——面对复杂任务时，先分析和规划，再一步步执行。做投研分析时尤其有用：让 AI 先理解需求、设计分析框架，再调用数据逐步完成。
+
+### 为什么需要 Plan 模式
+
+| 直接对话 | Plan 模式 |
+|---------|----------|
+| AI 直接开始执行，可能遗漏维度 | 先列出完整计划，覆盖所有分析维度 |
+| 遇到问题才发现方向不对 | 提前发现潜在问题，减少返工 |
+| 结果可能缺乏结构 | 按框架逐步执行，输出有条理 |
+
+### 工作流程
+
+Plan 模式分为五个阶段：
+
+```
+提出需求
+  ↓
+Phase 1: 理解 — 探索项目/数据，理解需求，提出澄清问题
+  ↓
+Phase 2: 设计 — 分析多种方案，评估权衡，选择最优路径
+  ↓
+Phase 3: 审查 — 验证方案可行性，确认与需求一致
+  ↓
+Phase 4: 计划 — 生成完整计划文档，包含具体步骤和文件路径
+  ↓
+Phase 5: 执行 — 退出 Plan 模式，按计划逐步执行
+```
+
+### 如何进入
+
+**方式一：启动时直接进入**
+
+```bash
+claude --permission-mode plan
+```
+
+**方式二：运行中切换**
+
+在对话中按 `Shift + Tab` 即可在普通模式和 Plan 模式间切换。
+
+{/* 截图占位：/imgs/claude-code/plan-mode-switch.png */}
+<div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 text-center text-gray-400 dark:text-gray-500 my-4">
+  📷 plan-mode-switch.png — Claude Code 中按 Shift + Tab 切换到 Plan 模式的界面
+</div>
+
+### 投研场景示例
+
+用 Plan 模式做一次完整的市场复盘：
+
+```
+你: 帮我做一下今日 A 股复盘，包括大盘走势、资金流向、热门板块和操作建议
+```
+
+Claude Code 在 Plan 模式下会：
+
+1. **理解需求**：确认复盘需要覆盖哪些维度（大盘、资金、板块、要闻）
+2. **设计方案**：规划数据获取顺序和分析框架
+3. **调用 MCP**：通过 Signal Skills 依次获取市场数据
+4. **生成报告**：按「价值为基、趋势为策、风控优先」框架输出结构化复盘
+
+{/* 截图占位：/imgs/claude-code/plan-mode-analysis.png */}
+<div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 text-center text-gray-400 dark:text-gray-500 my-4">
+  📷 plan-mode-analysis.png — Claude Code Plan 模式下执行投研分析的完整对话过程
+</div>
+
+### 适合用 Plan 模式的场景
+
+| 场景 | 原因 |
+|------|------|
+| 个股深度分析 | 需要调用多个数据源，综合基本面、技术面、资金面 |
+| 行业对比研究 | 横向对比多只股票，维度多、数据量大 |
+| 市场日报/周报 | 需要系统性地收集和组织市场信息 |
+| 投资组合诊断 | 涉及多只持仓的逐一分析和整体评估 |
+
+> 简单的数据查询（如「贵州茅台今天行情」）不需要 Plan 模式，直接对话即可。
+
+---
+
+## 常用命令与快捷键
+
+### 快捷键
+
+| 快捷键 | 功能 | 说明 |
+|--------|------|------|
+| `Shift + Tab` | 切换模式 | 在普通模式和 Plan 模式间切换 |
+| `Ctrl + C` | 中断任务 | 取消正在进行的 AI 处理 |
+| `Ctrl + R` | 重新发送 | 重新发送当前提示词 |
+| `Ctrl + L` | 清空对话 | 开始新的对话会话 |
+
+### 内置命令
+
+| 命令 | 功能 |
+|------|------|
+| `/init` | 初始化项目，创建 CLAUDE.md 配置文件 |
+| `/help` | 查看帮助信息 |
+| `/clear` | 清空当前对话 |
+| `/reset` | 重置会话 |
+| `/plugin` | 插件管理（浏览、安装、卸载插件） |
+| `/settings` | 查看设置 |
+| `/exit` | 退出 Claude Code |
+
+---
+
+## 提示词技巧
+
+写给 Claude Code 的提示词越具体，结果越好。
+
+### 好的提示词
+
+```
+帮我分析一下贵州茅台：
+1. 先看实时行情和基本面数据
+2. 从安全边际、趋势共振、风控三个维度评估
+3. 给出明确的操作建议和仓位建议
+```
+
+### 不够好的提示词
+
+```
+帮我看看茅台
+```
+
+### 关键原则
+
+| 原则 | 说明 | 示例 |
+|------|------|------|
+| **明确目标** | 说清楚要什么结果 | 「深度分析」vs「看看行情」 |
+| **提供上下文** | 说明关注的维度 | 「重点关注估值和资金面」 |
+| **分步描述** | 复杂任务用编号列出 | 「1. 先看数据 2. 再做对比 3. 给结论」 |
+| **指定格式** | 需要特定输出时说明 | 「用表格对比三只股票」 |
+
+---
+
+## Plugins（插件扩展）
+
+Claude Code 支持通过 Plugins 扩展功能，集成第三方工具和自定义工作流。
+
+### 管理插件
+
+```bash
+# 从 Git 仓库添加插件源
+/plugin marketplace add <仓库地址>
+
+# 打开插件管理界面（浏览、安装、配置、卸载）
+/plugin
+```
+
+{/* 截图占位：/imgs/claude-code/plugin-manager.png */}
+<div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 text-center text-gray-400 dark:text-gray-500 my-4">
+  📷 plugin-manager.png — Claude Code 插件管理界面，展示可用插件列表
+</div>
+
+### 推荐资源
+
+| 资源 | 地址 | 说明 |
+|------|------|------|
+| 官方插件市场 | [github.com/anthropics/claude-plugins-official](https://github.com/anthropics/claude-plugins-official) | Anthropic 官方维护 |
+| 社区 Agent 仓库 | [github.com/wshobson/agents](https://github.com/wshobson/agents) | 社区投资分析 Agent |
+| Agent 模板市场 | [aitmpl.com/agents](https://www.aitmpl.com/agents) | 各类 Agent 模板 |
+
+---
+
+## 与 Signal Skills 配合
+
+Claude Code 是 Signal Skills 支持的核心平台之一。配置好 MCP 连接后，在对话中直接提问即可调用投研技能。
+
+```
+查一下贵州茅台实时行情
+帮我深度分析一下宁德时代
+今天 A 股市场怎么样，帮我复盘一下
+白酒行业哪家估值最低
+近一年 PMI 趋势如何
+```
+
+{/* 截图占位：/imgs/claude-code/signal-skills-chat.png */}
+<div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 text-center text-gray-400 dark:text-gray-500 my-4">
+  📷 signal-skills-chat.png — Claude Code 中使用 Signal Skills 进行投研分析的实际对话截图
+</div>
+
+MCP 连接配置和 Signal Skills 完整使用步骤见 [快速开始](/signal-skills/getting-started)。
+
+---
+
+## 更多资源
+
+| 资源 | 链接 |
+|------|------|
+| Claude Code 官方文档 | [docs.anthropic.com](https://docs.anthropic.com) |
+| Claude Code GitHub | [github.com/anthropics/claude-code](https://github.com/anthropics/claude-code) |
+| 安装与配置指南 | [安装与配置](/signal-skills/claude-code/setup) |
+| Signal Skills 下载 | [下载页面](/signal-skills/download) |
+| Signal Skills 配置 | [快速开始](/signal-skills/getting-started) |

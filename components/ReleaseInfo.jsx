@@ -42,12 +42,12 @@ export default function ReleaseInfo() {
   }
 
   const downloadLinks = {
-    windows: `${OSS_BASE_URL}/latest-setup.exe`,
+    windows: `${OSS_BASE_URL}/releases/latest/latest-setup.exe`,
     macos: {
-      x64: `${OSS_BASE_URL}/latest-x64.dmg`,
-      arm64: `${OSS_BASE_URL}/latest-arm64.dmg`
+      x64: `${OSS_BASE_URL}/releases/latest/latest-x64.dmg`,
+      arm64: `${OSS_BASE_URL}/releases/latest/latest-arm64.dmg`
     },
-    linux: `${OSS_BASE_URL}/latest.AppImage`
+    linux: `${OSS_BASE_URL}/releases/latest/latest.AppImage`
   };
 
   return (

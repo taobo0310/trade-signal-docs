@@ -1,0 +1,198 @@
+---
+title: Signal Skills
+description: AI 投研助手技能包，在 AI 工具中直接查询金融数据、生成分析报告
+---
+
+import Link from 'next/link'
+
+<br />
+
+> **Signal Skills**
+> AI 投研助手 · 数据查询 · 分析报告 · 多平台支持
+
+将你的 AI 工具变成专业投研助手。Signal Skills 为 Cursor、Claude Code、Windsurf、GitHub Copilot 等支持 MCP 的平台提供金融数据查询与分析报告能力，内置投资理念与回复风格，在对话中直接完成投资分析。
+
+## 不只是工具，是投研助手
+
+Signal Skills 不只是数据接口的封装。技能包内置 AI Soul 人设系统，默认为**均衡型助手**——专业理性，结论先行，风控场景语气更硬。还提供毒舌老手、老练师父、冷静分析师等风格可选。
+
+所有分析遵循「**价值为基、趋势为策、风控优先**」投资理念，单票仓位、行业集中度、回撤阈值都有明确标准，不说空话。
+
+## 两层架构
+
+技能包分为 **数据获取层** 和 **分析报告层**，共 14 个技能、18 个 MCP Tools：
+
+```
+用户提问
+  ├── 查数据 → feed-data-tools（路由）→ 5 个数据子技能 → MCP tools → 返回数据
+  └── 要分析 → analysis-router（路由）→ 7 个分析子技能
+                                              ↓
+                                   读取投资理念 + 调用 MCP tools 获取数据
+                                              ↓
+                                     按专业框架生成结构化报告
+```
+
+## 数据获取（feed）
+
+通过 18 个 MCP tools 连接 Signal Feed 服务，覆盖 72 个 API 端点。
+
+<div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-6">
+
+<div className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
+<h3 className="text-lg font-semibold mb-2">📈 股票数据</h3>
+<p className="text-sm text-gray-600 dark:text-gray-400">
+选股筛选、实时行情、K 线、财务指标、综合诊股、股东研究、个股详情
+</p>
+<p className="text-xs text-gray-500 dark:text-gray-500 mt-2">
+示例：「帮我选市盈率低于 20 的白酒股」「诊断一下宁德时代」
+</p>
+</div>
+
+<div className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
+<h3 className="text-lg font-semibold mb-2">📰 资讯与要闻</h3>
+<p className="text-sm text-gray-600 dark:text-gray-400">
+市场概览、主线、要闻、题材库、成分股、快讯流
+</p>
+<p className="text-xs text-gray-500 dark:text-gray-500 mt-2">
+示例：「今天 A 股市场怎么样」「有哪些热门题材」
+</p>
+</div>
+
+<div className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
+<h3 className="text-lg font-semibold mb-2">🌐 市场数据</h3>
+<p className="text-sm text-gray-600 dark:text-gray-400">
+大盘指数、资金流向、资金面、热力图、全球指数
+</p>
+<p className="text-xs text-gray-500 dark:text-gray-500 mt-2">
+示例：「今天哪些行业资金流入最多」「美股和欧洲股市表现」
+</p>
+</div>
+
+<div className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
+<h3 className="text-lg font-semibold mb-2">📊 宏观经济</h3>
+<p className="text-sm text-gray-600 dark:text-gray-400">
+PMI、CPI、PPI、GDP、LPR、M2、社零、进出口等 11 类指标
+</p>
+<p className="text-xs text-gray-500 dark:text-gray-500 mt-2">
+示例：「近一年 PMI 趋势」「最新 CPI 数据」
+</p>
+</div>
+
+<div className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
+<h3 className="text-lg font-semibold mb-2">💰 基金与 ETF</h3>
+<p className="text-sm text-gray-600 dark:text-gray-400">
+ETF 列表、基金筛选、基金详情（持仓/估值/调仓）、基金 K 线
+</p>
+<p className="text-xs text-gray-500 dark:text-gray-500 mt-2">
+示例：「510300 这只基金怎么样」「沪深 300 ETF 最近走势」
+</p>
+</div>
+
+</div>
+
+## 分析报告（analysis）
+
+覆盖 7 个分析场景，遵循「价值为基、趋势为策、风控优先」投资理念。
+
+<div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-6">
+
+<div className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
+<h3 className="text-lg font-semibold mb-2">🔬 个股深度分析</h3>
+<p className="text-sm text-gray-600 dark:text-gray-400">
+安全边际评估、趋势共振分析、风险识别、投资决策、消息面分析
+</p>
+<p className="text-xs text-gray-500 dark:text-gray-500 mt-2">
+示例：「帮我分析一下贵州茅台」「宁德时代估值合理吗」
+</p>
+</div>
+
+<div className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
+<h3 className="text-lg font-semibold mb-2">⚖️ 行业对比分析</h3>
+<p className="text-sm text-gray-600 dark:text-gray-400">
+安全边际、企业质量、趋势共振、风控四维横向对比
+</p>
+<p className="text-xs text-gray-500 dark:text-gray-500 mt-2">
+示例：「白酒行业哪家估值最低」「比亚迪和宁德时代对比」
+</p>
+</div>
+
+<div className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
+<h3 className="text-lg font-semibold mb-2">📋 市场日报/周报</h3>
+<p className="text-sm text-gray-600 dark:text-gray-400">
+三大指数、情绪温度、资金动向、行业轮动、全球市场、环境等级
+</p>
+<p className="text-xs text-gray-500 dark:text-gray-500 mt-2">
+示例：「今天 A 股市场怎么样」「哪些行业在轮动」
+</p>
+</div>
+
+<div className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
+<h3 className="text-lg font-semibold mb-2">📝 今日复盘</h3>
+<p className="text-sm text-gray-600 dark:text-gray-400">
+四段式精炼复盘：市场环境、资金结构、要闻要点、下一步计划
+</p>
+<p className="text-xs text-gray-500 dark:text-gray-500 mt-2">
+示例：「帮我复盘一下今天」「盘后总结给个操作思路」
+</p>
+</div>
+
+<div className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
+<h3 className="text-lg font-semibold mb-2">🏦 基金诊断</h3>
+<p className="text-sm text-gray-600 dark:text-gray-400">
+基金概况、业绩评估、持仓分析、估值判断、调仓动态
+</p>
+<p className="text-xs text-gray-500 dark:text-gray-500 mt-2">
+示例：「510300 这只基金怎么样」「沪深 300 ETF 值得定投吗」
+</p>
+</div>
+
+<div className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
+<h3 className="text-lg font-semibold mb-2">📊 ETF 对比</h3>
+<p className="text-sm text-gray-600 dark:text-gray-400">
+估值、成本、表现、规模与流动性四维对比
+</p>
+<p className="text-xs text-gray-500 dark:text-gray-500 mt-2">
+示例：「沪深 300 和中证 500 ETF 哪个好」
+</p>
+</div>
+
+<div className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
+<h3 className="text-lg font-semibold mb-2">🌍 宏观经济月报</h3>
+<p className="text-sm text-gray-600 dark:text-gray-400">
+经济增长、通胀、货币政策、外贸、行业映射、宏观环境等级
+</p>
+<p className="text-xs text-gray-500 dark:text-gray-500 mt-2">
+示例：「当前宏观经济形势怎么样」「降息对股市有什么影响」
+</p>
+</div>
+
+</div>
+
+## AI Soul
+
+技能包内置 **Soul** 人设系统，定义 AI 的身份、投资理念、回复风格与行为准则。默认为均衡型助手，也可切换为其他风格：
+
+| 风格 | 特点 |
+|------|------|
+| **均衡型助手**（默认） | 专业理性，结论先行，风控时更直接 |
+| 毒舌老手 | 犀利直接，擅长打断情绪化操作 |
+| 老练师父 | 温和耐心，强调纪律与教学 |
+| 冷静分析师 | 数据优先，弱情绪、强结构 |
+
+切换方式：将对应风格的内容替换到 `soul.md` 即可。各风格完整内容见 [AI Soul](/signal-skills/souls)，支持一键复制。
+
+## 支持的 AI 平台
+
+| 平台 | 配置方式 |
+|------|---------|
+| **Cursor** | `.cursor/mcp.json` + `.cursorrules` |
+| **Claude Code** | `.mcp.json` + `CLAUDE.md` |
+| **Windsurf** | MCP 配置 + `.windsurfrules` |
+| **GitHub Copilot** | MCP Server 配置 |
+
+## 获取方式
+
+技能包通过下载安装使用，解压后按包内说明配置即可。
+
+<Link href="/signal-skills/download" className="inline-block px-6 py-3 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors font-medium shadow-sm hover:shadow no-underline mr-3">下载技能包</Link>
+<Link href="/signal-skills/getting-started" className="inline-block px-6 py-3 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:border-emerald-500 transition-colors font-medium no-underline">配置说明</Link>

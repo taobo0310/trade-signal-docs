@@ -1,0 +1,461 @@
+---
+title: 安装与配置
+description: Claude Code 多平台安装、API 配置、cc-switch 多密钥管理、系统通知与 IDE 集成
+---
+
+import Link from 'next/link'
+
+## 1. 安装 Git（前置依赖）
+
+Claude Code 依赖 Git 进行版本管理。**安装 Claude Code 之前必须先装好 Git**，以下按平台说明。
+
+| 平台 | 安装方式 |
+|------|---------|
+| **macOS** | `xcode-select --install`（系统自带提示）或 `brew install git` |
+| **Windows** | 从 [git-scm.com](https://git-scm.com/) 下载安装包，按默认选项安装 |
+| **Linux** | `sudo apt install git`（Debian/Ubuntu）或 `sudo dnf install git`（Fedora） |
+
+安装后验证：
+
+```bash
+git --version
+```
+
+{/* 截图占位：/imgs/claude-code/git-download-page.png */}
+<div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 text-center text-gray-400 dark:text-gray-500 my-4">
+  📷 git-download-page.png — Git 官网下载页面，标注 Windows/macOS 安装包位置
+</div>
+
+---
+
+## 2. 安装 Claude Code
+
+### macOS
+
+```bash
+# Homebrew 安装（推荐）
+brew install claude-code
+
+# 或使用 npm（需要 Node.js 18+）
+npm install -g @anthropic-ai/claude-code
+```
+
+{/* 截图占位：/imgs/claude-code/install-macos.png */}
+<div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 text-center text-gray-400 dark:text-gray-500 my-4">
+  📷 install-macos.png — macOS 终端执行 brew install claude-code 的成功输出
+</div>
+
+### Windows
+
+在 **PowerShell** 中执行官方安装脚本：
+
+```powershell
+irm https://claude.ai/install.ps1 | iex
+```
+
+如果安装后 `claude` 命令无法识别，需要将安装目录加入系统 PATH：
+
+1. 找到安装路径（默认在 `%USERPROFILE%\.claude` 或安装脚本提示的路径）
+2. 右键「此电脑」→「属性」→「高级系统设置」→「环境变量」
+3. 在 **Path** 中点击「新建」，粘贴安装目录路径
+4. **重新打开 PowerShell** 后再试
+
+{/* 截图占位：/imgs/claude-code/install-windows.png */}
+<div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 text-center text-gray-400 dark:text-gray-500 my-4">
+  📷 install-windows.png — Windows PowerShell 执行安装脚本的输出
+</div>
+
+{/* 截图占位：/imgs/claude-code/windows-env-path.png */}
+<div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 text-center text-gray-400 dark:text-gray-500 my-4">
+  📷 windows-env-path.png — Windows 环境变量配置界面，PATH 中新增 Claude Code 路径
+</div>
+
+### Linux
+
+```bash
+# npm 安装（需要 Node.js 18+）
+npm install -g @anthropic-ai/claude-code
+
+# 或使用官方安装脚本
+curl -fsSL https://claude.ai/install.sh | sh
+```
+
+### 验证安装
+
+所有平台安装完成后，**打开一个新的终端窗口**，执行：
+
+```bash
+claude --version
+claude --help
+```
+
+{/* 截图占位：/imgs/claude-code/verify-install.png */}
+<div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 text-center text-gray-400 dark:text-gray-500 my-4">
+  📷 verify-install.png — 终端执行 claude --version 和 claude --help 的输出
+</div>
+
+首次运行 `claude` 会引导你配置 API Key。
+
+---
+
+## 3. API Key 配置
+
+Claude Code 通过 API Key 连接 AI 模型。可以手动编辑配置文件，也可以使用 cc-switch 图形化管理（见下一节）。
+
+### 配置文件位置
+
+| 平台 | 路径 |
+|------|------|
+| **macOS / Linux** | `~/.claude/settings.json` |
+| **Windows** | `%USERPROFILE%\.claude\settings.json` |
+
+### 配置示例
+
+```json
+{
+  "env": {
+    "ANTHROPIC_AUTH_TOKEN": "你的 API Key",
+    "ANTHROPIC_BASE_URL": "https://api.anthropic.com"
+  }
+}
+```
+
+如果使用第三方兼容 API（如 Kimi、智谱等国内模型服务），将 `ANTHROPIC_BASE_URL` 替换为对应的 API 地址即可：
+
+```json
+{
+  "env": {
+    "ANTHROPIC_AUTH_TOKEN": "你的第三方 API Key",
+    "ANTHROPIC_BASE_URL": "https://第三方服务地址/api"
+  }
+}
+```
+
+> 只有一个 API Key 时，手动编辑配置文件就够了。如果有多个 Key 需要频繁切换，推荐使用 cc-switch。
+
+---
+
+## 4. cc-switch：多密钥管理
+
+### 为什么需要 cc-switch
+
+Claude Code 原生只支持配置一个 API Key。实际使用中你可能有多个需求：
+
+| 场景 | 说明 |
+|------|------|
+| 多个 API 供应商 | 同时使用 Anthropic、Kimi、智谱等不同供应商 |
+| 多个账号 | 个人账号和团队账号切换 |
+| 费用控制 | 不同 Key 分配给不同用途，方便管控额度 |
+| 故障切换 | 某个供应商不可用时快速切到备用 |
+
+cc-switch 提供图形界面，让你配置多个 API Key 并自动热切换，不需要手动编辑配置文件。
+
+### 安装 cc-switch
+
+从 [cc-switch GitHub Releases](https://github.com/farion1231/cc-switch/releases) 下载最新版本：
+
+| 平台 | 安装包 |
+|------|--------|
+| **Windows** | `CC-Switch-v{版本}-Windows.msi`（安装版）或 `CC-Switch-v{版本}-Windows-Portable.zip`（免安装版） |
+| **macOS** | `CC-Switch-v{版本}-macOS.dmg` |
+| **Linux** | `CC-Switch-v{版本}-Linux.AppImage` |
+
+> 具体可用平台以 [Releases 页面](https://github.com/farion1231/cc-switch/releases) 实际发布为准。
+
+{/* 截图占位：/imgs/claude-code/switch-releases.png */}
+<div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 text-center text-gray-400 dark:text-gray-500 my-4">
+  📷 switch-releases.png — cc-switch GitHub Releases 页面，标注各平台安装包
+</div>
+
+### 配置供应商
+
+打开 cc-switch，点击 ➕ 添加供应商：
+
+1. **填写供应商名称**（如 `anthropic`、`kimi-k2.5`、`zhipu`）
+2. **填入 API Key**
+3. **设置请求地址**（不同供应商地址不同）
+
+常见供应商配置参考：
+
+| 供应商 | 请求地址 |
+|--------|---------|
+| Anthropic 官方 | `https://api.anthropic.com` |
+| Kimi K2.5 | `https://api.kimi.com/coding/` |
+| 智谱 GLM | `https://open.bigmodel.cn/api/anthropic` |
+
+{/* 截图占位：/imgs/claude-code/switch-add-provider.png */}
+<div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 text-center text-gray-400 dark:text-gray-500 my-4">
+  📷 switch-add-provider.png — cc-switch 主界面，展示添加供应商的操作流程
+</div>
+
+{/* 截图占位：/imgs/claude-code/switch-provider-list.png */}
+<div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 text-center text-gray-400 dark:text-gray-500 my-4">
+  📷 switch-provider-list.png — cc-switch 配置完成后的供应商列表，展示多个供应商的切换状态
+</div>
+
+配置完成后，cc-switch 会自动管理 Claude Code 的 API 连接，在多个 Key 之间进行热切换。
+
+> 详细使用文档见 [cc-switch 中文说明](https://github.com/farion1231/cc-switch/blob/main/README_ZH.md)。
+
+---
+
+## 5. 系统通知（Hooks）
+
+Hooks 可以让 Claude Code 在需要你输入或任务完成时发送系统通知，避免切走后错过消息。
+
+将以下配置加入 `~/.claude/settings.json`（与 `env` 同级）。
+
+Claude Code 提供两个环境变量供 Hooks 使用：
+- `CLAUDE_CODE_ENTRYPOINT`：当前使用的 IDE 或编辑器
+- `CLAUDE_PROJECT_DIR`：当前项目目录路径
+
+### macOS
+
+```json
+{
+  "hooks": {
+    "Notification": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "osascript -e 'display notification \"需要您的输入确认...\" with title \"'\"$CLAUDE_CODE_ENTRYPOINT: $(basename $CLAUDE_PROJECT_DIR)\"'\"'"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "osascript -e 'display notification \"已完成，请检查结果\" with title \"'\"$CLAUDE_CODE_ENTRYPOINT: $(basename $CLAUDE_PROJECT_DIR)\"'\"'"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+首次使用需要授予终端通知权限：「系统设置」→「通知」→ 找到「终端」→ 允许通知。
+
+### Windows
+
+Windows 可以使用 PowerShell 的 Toast 通知。推荐先安装 [BurntToast](https://github.com/Windos/BurntToast) 模块：
+
+```powershell
+Install-Module -Name BurntToast -Force
+```
+
+然后配置 Hooks：
+
+```json
+{
+  "hooks": {
+    "Notification": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "powershell -Command \"New-BurntToastNotification -Text 'Claude Code', '需要您的输入确认'\""
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "powershell -Command \"New-BurntToastNotification -Text 'Claude Code', '任务已完成，请检查结果'\""
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+如果不想安装额外模块，也可以用基础的 MessageBox（会弹出对话框）：
+
+```json
+{
+  "hooks": {
+    "Notification": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "powershell -Command \"Add-Type -AssemblyName System.Windows.Forms; [System.Windows.Forms.MessageBox]::Show('需要您的输入确认', 'Claude Code')\""
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+### Linux
+
+```json
+{
+  "hooks": {
+    "Notification": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "notify-send 'Claude Code' '需要您的输入确认 - 项目: $CLAUDE_PROJECT_DIR' --icon=dialog-information"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "notify-send 'Claude Code' '任务完成 - IDE: $CLAUDE_CODE_ENTRYPOINT' --icon=info"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+Linux 需要先安装通知服务：
+
+```bash
+# Debian / Ubuntu
+sudo apt install libnotify-bin
+
+# Fedora / RHEL
+sudo dnf install libnotify
+```
+
+---
+
+## 6. IDE 集成
+
+Claude Code 除了在终端独立使用，还可以集成到 VS Code 和 Cursor 中，提供图形化的交互体验。
+
+### VS Code 插件
+
+1. 打开 VS Code，点击左侧「扩展」图标
+2. 搜索 **Claude Code** 并安装
+3. 安装后点击侧边栏的 Claude Code 图标即可开始对话
+
+{/* 截图占位：/imgs/claude-code/vscode-install.png */}
+<div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 text-center text-gray-400 dark:text-gray-500 my-4">
+  📷 vscode-install.png — VS Code 扩展市场搜索 Claude Code 的结果，点击安装按钮
+</div>
+
+在对话框中输入 `/config` 可以调整插件设置（如关闭登录提示等）。
+
+{/* 截图占位：/imgs/claude-code/vscode-chat.png */}
+<div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 text-center text-gray-400 dark:text-gray-500 my-4">
+  📷 vscode-chat.png — VS Code 中 Claude Code 插件的对话界面，展示一次投研查询
+</div>
+
+### Cursor
+
+Cursor 内置终端可直接运行 `claude` 命令。Cursor 本身也支持 MCP 配置，可以通过 `.cursor/mcp.json` 连接 Signal Skills，详见 [快速开始](/signal-skills/getting-started)。
+
+### 推荐搭配的 VS Code 插件
+
+| 插件名称 | 用途 |
+|----------|------|
+| **简体中文** | VS Code 界面中文化 |
+| **Markdown All in One** | 预览 AI 生成的 Markdown 分析报告 |
+| **Live Server** | 本地预览 HTML 可视化报告 |
+| **Rainbow CSV** | 高亮查看数据导出的 CSV 文件 |
+| **GitLens / Git Graph** | 查看 Claude Code 的提交历史和分支 |
+
+---
+
+## 7. 连接 Signal Skills
+
+安装和配置完成后，将 Claude Code 与 Signal Skills 技能包连接起来。
+
+### 配置步骤
+
+1. [下载 Signal Skills 技能包](/signal-skills/download) 并解压
+2. 将包内的 `.mcp.json.example` 复制为 `.mcp.json`，填入实际的 Feed 服务地址和 API Key：
+
+```json
+{
+  "mcpServers": {
+    "trade-signal": {
+      "type": "http",
+      "url": "http://your-feed-server/mcp",
+      "headers": {
+        "x-api-key": "你的 API Key"
+      }
+    }
+  }
+}
+```
+
+3. 用 Claude Code 打开技能包目录——它会自动读取 `CLAUDE.md` 入口文件，加载全部技能和 AI Soul
+4. 开始对话，直接提问即可
+
+完整配置说明见 [快速开始](/signal-skills/getting-started)。
+
+---
+
+## 常见问题
+
+### `claude` 命令找不到
+
+安装后终端无法识别 `claude` 命令，通常是环境变量 PATH 未配置。
+
+| 平台 | 解决方式 |
+|------|---------|
+| **macOS / Linux** | 检查 `~/.zshrc` 或 `~/.bashrc` 中是否包含安装路径，修改后执行 `source ~/.zshrc` 生效 |
+| **Windows** | 将安装目录加入系统环境变量 Path，然后**重新打开 PowerShell** |
+
+### Windows 用户是否需要 WSL
+
+不需要。Claude Code 原生支持 Windows + PowerShell，Signal Skills 的所有功能在 Windows 上都可正常使用。
+
+如果你已经在用 WSL 或有 Linux 环境需求，也可以在 WSL 内使用 Claude Code：
+1. 在 VS Code 中安装 **Remote - WSL** 插件
+2. 在 WSL 终端中进入项目目录，执行 `code .` 打开 VS Code
+3. Claude Code 和 Signal Skills 在 WSL 环境中同样可用
+
+### API 请求超时
+
+如果使用的 API 服务响应较慢，可以在 `settings.json` 中调大超时时间：
+
+```json
+{
+  "env": {
+    "API_TIMEOUT_MS": "300000"
+  }
+}
+```
+
+### cc-switch 和手动配置冲突吗
+
+不冲突。cc-switch 本质上是帮你管理 `settings.json` 中的 API 配置。启用 cc-switch 后，它会接管 API Key 的切换，你不需要再手动编辑配置文件中的 `ANTHROPIC_AUTH_TOKEN` 和 `ANTHROPIC_BASE_URL`。
+
+---
+
+## 快速检查清单
+
+安装配置完成后，逐项确认：
+
+- [ ] **Git**：终端执行 `git --version` 有输出
+- [ ] **Claude Code**：终端执行 `claude --version` 有输出
+- [ ] **API Key**：首次运行 `claude` 后可以正常对话
+- [ ] **cc-switch**（可选）：已添加至少一个供应商，切换正常
+- [ ] **系统通知**（可选）：Hooks 配置后能收到通知
+- [ ] **IDE 插件**（可选）：VS Code / Cursor 中 Claude Code 可用
+- [ ] **Signal Skills**：MCP 配置完成，对话中可以查询数据
+
+<div className="mt-6 flex flex-wrap gap-3">
+  <Link href="/signal-skills/claude-code" className="inline-block px-6 py-3 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:border-emerald-500 transition-colors font-medium no-underline">← 简介</Link>
+  <Link href="/signal-skills/getting-started" className="inline-block px-6 py-3 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors font-medium shadow-sm hover:shadow no-underline">配置 Signal Skills →</Link>
+</div>
