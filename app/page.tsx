@@ -9,7 +9,8 @@ const features = [
       "专业的A股投资分析生产力工具，系统化完成从市场分析到投资决策的全流程工作",
     href: "/signal-client",
     cta: "立即体验",
-    primary: true
+    primary: true,
+    disabled: false
   },
   {
     icon: BookOpen,
@@ -17,7 +18,8 @@ const features = [
     description: "系统化的投资知识体系，从理念到实践，帮助您建立正确的投资观念",
     href: "/investment-guide",
     cta: "开始学习",
-    primary: false
+    primary: false,
+    disabled: false
   },
   {
     icon: Plug,
@@ -26,7 +28,8 @@ const features = [
       "金融数据接口库，提供股票、ETF基金、宏观、市场等多维度金融数据",
     href: "/signal-feed",
     cta: "查看文档",
-    primary: false
+    primary: false,
+    disabled: false
   },
   {
     icon: Bot,
@@ -35,7 +38,8 @@ const features = [
       "可在 Claude、Cursor 等 AI 工具中直接查询金融数据、分析个股与市场",
     href: "/signal-skills",
     cta: "了解更多",
-    primary: false
+    primary: false,
+    disabled: false
   }
 ];
 
