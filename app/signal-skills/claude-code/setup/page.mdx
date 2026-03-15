@@ -16,13 +16,13 @@ Claude Code 依赖 Git 进行版本管理。**安装 Claude Code 之前必须先
 | **Windows** | 从 [git-scm.com](https://git-scm.com/) 下载安装包，按默认选项安装 |
 | **Linux** | `sudo apt install git`（Debian/Ubuntu）或 `sudo dnf install git`（Fedora） |
 
+<DocImage src="/imgs/claude-code/git-download-page.png" alt="Git 官网下载页面" caption="Git 官网下载页面：选择对应平台的安装包" />
+
 安装后验证：
 
 ```bash
 git --version
 ```
-
-<DocImage src="/imgs/claude-code/git-download-page.png" alt="Git 官网下载页面" caption="Git 官网下载页面：选择对应平台的安装包" />
 
 <DocImage src="/imgs/claude-code/git-version.png" alt="验证 Git 安装" caption="终端执行 git --version 确认安装成功" />
 
@@ -30,48 +30,60 @@ git --version
 
 ## 2. 安装 Claude Code
 
-### macOS
+官方提供三种安装方式，推荐使用原生安装脚本（自动更新）。
+
+> 如果下载失败或超时，可能需要先配置代理，见下方[常见问题 — 网络代理配置](#网络代理配置)。
+
+### 方式一：原生安装脚本（推荐）
+
+安装后会自动在后台更新，始终保持最新版本。
+
+**macOS / Linux / WSL：**
 
 ```bash
-# Homebrew 安装（推荐）
-brew install claude-code
-
-# 或使用 npm（需要 Node.js 18+）
-npm install -g @anthropic-ai/claude-code
+curl -fsSL https://claude.ai/install.sh | bash
 ```
 
-<DocImage src="/imgs/claude-code/install-macos.png" alt="macOS 安装 Claude Code" caption="macOS 终端执行 brew install claude-code" />
+<DocImage src="/imgs/claude-code/install-macos.png" alt="macOS 安装 Claude Code" caption="macOS / Linux 终端执行原生安装脚本" />
 
-### Windows
-
-在 **PowerShell** 中执行官方安装脚本：
+**Windows PowerShell：**
 
 ```powershell
 irm https://claude.ai/install.ps1 | iex
 ```
+
+**Windows CMD：**
+
+```batch
+curl -fsSL https://claude.ai/install.cmd -o install.cmd && install.cmd && del install.cmd
+```
+
+<DocImage src="/imgs/claude-code/install-windows.png" alt="Windows 安装 Claude Code" caption="Windows PowerShell 执行安装脚本" />
+
+### 方式二：Homebrew（macOS）
+
+```bash
+brew install --cask claude-code
+```
+
+> Homebrew 安装不会自动更新，需定期执行 `brew upgrade claude-code` 获取最新版本。
+
+### 方式三：WinGet（Windows）
+
+```powershell
+winget install Anthropic.ClaudeCode
+```
+
+> WinGet 安装不会自动更新，需定期执行 `winget upgrade Anthropic.ClaudeCode` 获取最新版本。
+
+### 安装后 `claude` 命令找不到（Windows）
 
 如果安装后 `claude` 命令无法识别，需要将安装目录加入系统 PATH：
 
 1. 找到安装路径（默认在 `%USERPROFILE%\.claude` 或安装脚本提示的路径）
 2. 右键「此电脑」→「属性」→「高级系统设置」→「环境变量」
 3. 在 **Path** 中点击「新建」，粘贴安装目录路径
-4. **重新打开 PowerShell** 后再试
-
-{/* 待截图：install-windows.png */}
-<DocImage src="/imgs/claude-code/install-windows.png" alt="Windows 安装" caption="Windows PowerShell 执行安装脚本" />
-
-{/* 待截图：windows-env-path.png */}
-<DocImage src="/imgs/claude-code/windows-env-path.png" alt="Windows 环境变量" caption="将 Claude Code 安装目录添加到系统 PATH" />
-
-### Linux
-
-```bash
-# npm 安装（需要 Node.js 18+）
-npm install -g @anthropic-ai/claude-code
-
-# 或使用官方安装脚本
-curl -fsSL https://claude.ai/install.sh | sh
-```
+4. **重新打开终端**后再试
 
 ### 验证安装
 
@@ -384,12 +396,12 @@ Cursor 内置终端可直接运行 `claude` 命令。Cursor 本身也支持 MCP 
 
 ### `claude` 命令找不到
 
-安装后终端无法识别 `claude` 命令，通常是环境变量 PATH 未配置。
+安装后终端无法识别 `claude` 命令，通常是 PATH 未配置。
 
 | 平台 | 解决方式 |
 |------|---------|
 | **macOS / Linux** | 检查 `~/.zshrc` 或 `~/.bashrc` 中是否包含安装路径，修改后执行 `source ~/.zshrc` 生效 |
-| **Windows** | 将安装目录加入系统环境变量 Path，然后**重新打开 PowerShell** |
+| **Windows** | 见上方[安装后 claude 命令找不到](#安装后-claude-命令找不到windows) |
 
 ### Windows 用户是否需要 WSL
 
@@ -400,9 +412,33 @@ Cursor 内置终端可直接运行 `claude` 命令。Cursor 本身也支持 MCP 
 2. 在 WSL 终端中进入项目目录，执行 `code .` 打开 VS Code
 3. Claude Code 和 Signal Skills 在 WSL 环境中同样可用
 
+### 网络代理配置
+
+如果你的网络环境需要代理才能访问 Anthropic API，需要配置 HTTP 代理。
+
+**macOS / Linux**
+
+在终端启动前设置，或写入 `~/.zshrc`（`~/.bashrc`）：
+
+```bash
+export HTTP_PROXY="http://127.0.0.1:7890"
+export HTTPS_PROXY="http://127.0.0.1:7890"
+```
+
+**Windows PowerShell**
+
+每次打开 PowerShell 时设置，或写入 `$PROFILE` 文件：
+
+```powershell
+$Env:HTTP_PROXY="http://127.0.0.1:7890"
+$Env:HTTPS_PROXY="http://127.0.0.1:7890"
+```
+
+> 端口号 `7890` 以你本地代理工具的实际端口为准。如果使用第三方兼容 API（如 Kimi、智谱），通常不需要代理。
+
 ### API 请求超时
 
-如果使用的 API 服务响应较慢，可以在 `settings.json` 中调大超时时间：
+如果 API 服务响应较慢，可以在 `settings.json` 中调大超时时间：
 
 ```json
 {
