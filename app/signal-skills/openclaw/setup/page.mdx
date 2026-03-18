@@ -109,9 +109,32 @@ openclaw dashboard
 
 前往 [授权申请](/signal-client/apply) 页面获取 Signal Skills API Key。详细流程见 [快速开始](/signal-skills/getting-started)。
 
-### 步骤 B：配置 MCP 连接
+### 步骤 B：安装技能包
 
-编辑配置文件 `~/.openclaw/openclaw.json`，添加 `mcpServers` 字段：
+[下载 OpenClaw 版技能包](/signal-skills/download) 并解压到任意目录，例如：
+
+```bash
+~/.agents/skills/trade-signal-skills-openclaw/
+```
+
+然后编辑 `~/.openclaw/openclaw.json`，配置 Skills 加载路径：
+
+```json
+{
+  "skills": {
+    "load": {
+      "extraDirs": [
+        "<解压路径>/feed",
+        "<解压路径>/analysis"
+      ]
+    }
+  }
+}
+```
+
+### 步骤 C：配置 MCP 连接
+
+复制技能包内的 `mcporter.json.example` 为 `~/.mcporter/mcporter.json`，填入实际的 Feed 服务地址和 API Key：
 
 ```json
 {
@@ -127,21 +150,7 @@ openclaw dashboard
 }
 ```
 
-### 步骤 C：安装技能包
-
-将 [下载](/signal-skills/download) 并解压后的技能包放入 Skills 目录：
-
-```bash
-# Skills 目录路径
-~/.openclaw/workspace/skills/
-
-# 放入后的结构示例
-~/.openclaw/workspace/skills/
-└── trade-signal-skills/
-    └── SKILL.md
-```
-
-配置完成后重启网关服务使其生效：
+### 步骤 D：重启验证
 
 ```bash
 openclaw gateway restart

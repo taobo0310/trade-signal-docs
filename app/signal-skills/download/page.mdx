@@ -11,7 +11,7 @@ import SkillsDownload from '@/components/SkillsDownload'
 
 ## 包内结构
 
-下载并解压后，目录结构如下：
+### 标准版（Cursor / Claude Code / Windsurf）
 
 ```
 trade-signal-skills/
@@ -26,11 +26,25 @@ trade-signal-skills/
 └── analysis/              # 分析报告技能（8 个）
 ```
 
+### OpenClaw 版
+
+```
+trade-signal-skills-openclaw/
+├── mcporter.json.example      # MCP 连接配置模板
+├── openclaw.json.example      # Skills 加载配置模板
+├── soul.md                    # AI Soul
+├── README.md                  # 完整使用说明
+├── feed/                      # 数据查询技能（6 个）
+└── analysis/                  # 分析报告技能（8 个）
+```
+
+OpenClaw 版所有 SKILL.md 均为自包含文件，无需跟随外部引用。
+
 ## 使用前提
 
 | 条件 | 说明 |
 |------|------|
-| AI 平台 | Cursor、Claude Code、Windsurf 或 GitHub Copilot（需支持 MCP） |
+| AI 平台 | Cursor、Claude Code、Windsurf、GitHub Copilot 或 OpenClaw（需支持 MCP） |
 | API Key | [授权申请](/signal-client/apply) 通过后，在 [用户后台](https://app.tradersignal.org/dashboard/api-keys) 自行创建 |
 | 网络 | 可访问 Signal Feed 服务 |
 
