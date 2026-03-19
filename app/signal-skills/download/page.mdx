@@ -23,6 +23,11 @@ trade-signal-skills/
 ├── soul.md                # AI Soul（默认：均衡型助手）
 ├── README.md              # 完整使用说明
 ├── feed/                  # 数据查询技能（6 个）
+│   ├── feed-stock/        # 股票数据（13 个 MCP tools）
+│   ├── feed-market/       # 市场数据（3 个）
+│   ├── feed-news/         # 资讯数据（3 个）
+│   ├── feed-macro/        # 宏观数据（2 个）
+│   └── feed-fund/         # 基金数据（3 个）
 └── analysis/              # 分析报告技能（8 个）
 ```
 
@@ -35,10 +40,70 @@ trade-signal-skills-openclaw/
 ├── soul.md                    # AI Soul（默认：均衡型助手）
 ├── README.md                  # 完整使用说明
 ├── feed/                      # 数据查询技能（6 个）
+│   ├── feed-stock/            # 股票数据（13 个 MCP tools）
+│   ├── feed-market/           # 市场数据（3 个）
+│   ├── feed-news/             # 资讯数据（3 个）
+│   ├── feed-macro/            # 宏观数据（2 个）
+│   └── feed-fund/             # 基金数据（3 个）
 └── analysis/                  # 分析报告技能（8 个）
 ```
 
 OpenClaw 版所有 SKILL.md 均为自包含文件，无需跟随外部引用。
+
+---
+
+## MCP Tools（24 个）
+
+Signal Skills 提供 **24 个 MCP Tools** 获取金融数据：
+
+### 股票数据（13 个）
+
+| Tool | 功能 |
+|------|------|
+| `search_stocks` | 搜索/筛选股票 |
+| `get_stock_quote` | 实时行情 |
+| `get_stock_kline` | K 线数据 |
+| `get_stock_financial` | 财务指标 + 主营业务 |
+| `get_stock_diagnosis` | 综合诊股（四维） |
+| `get_stock_shareholders` | 股东研究 |
+| `get_stock_info` | 个股详情 |
+| `get_stock_earnings_forecast` | 业绩预告 |
+| `get_stock_performance_ten_years` | 十年业绩 |
+| `get_industry_list` | 行业板块列表 |
+| `get_concept_list` | 概念板块列表 |
+| `get_area_list` | 地域板块列表 |
+| `get_style_list` | 风格板块列表 |
+
+### 市场数据（3 个）
+
+| Tool | 功能 |
+|------|------|
+| `get_market_indices` | 大盘指数 |
+| `get_market_flow` | 资金流向 |
+| `get_market_overview` | 资金面/热力图/全球指数 |
+
+### 资讯数据（3 个）
+
+| Tool | 功能 |
+|------|------|
+| `get_news_summary` | 要闻摘要 |
+| `get_news_feed` | 快讯流 |
+| `get_news_topics` | 题材库 |
+
+### 宏观数据（2 个）
+
+| Tool | 功能 |
+|------|------|
+| `get_macro_data` | 宏观指标数据 |
+| `get_macro_series` | 宏观指标时间序列 |
+
+### 基金数据（3 个）
+
+| Tool | 功能 |
+|------|------|
+| `search_funds` | 基金筛选 |
+| `get_fund_detail` | 基金详情 |
+| `get_fund_kline` | 基金 K 线 |
 
 ## 使用前提
 
