@@ -27,10 +27,14 @@ trade-signal-skills/
 ├── CLAUDE.md              # Claude Code 入口
 ├── .cursorrules           # Cursor 入口
 ├── .windsurfrules         # Windsurf 入口
-├── .mcp.json.example      # MCP 连接配置模板
-├── .claude/settings.json  # Claude Code MCP 权限（自动启用）
-├── soul.md                # AI Soul（默认：均衡型助手）
+├── .mcp.json.example     # MCP 连接配置模板（首次使用需复制为 .mcp.json）
+├── .claude/settings.json # Claude Code MCP 权限（自动启用）
+├── soul.md                # AI Soul（可自定义人设）
+├── version.json           # 版本标记
 ├── README.md              # 完整使用说明
+├── scripts/               # 工具脚本
+│   ├── check-update.sh    # 版本检测与更新（macOS / Linux）
+│   └── check-update.ps1   # 版本检测与更新（Windows）
 ├── feed/                  # 数据查询技能（6 个）
 │   ├── feed-stock/        # 股票数据（13 个 MCP tools）
 │   ├── feed-market/       # 市场数据（3 个）
@@ -46,8 +50,12 @@ trade-signal-skills/
 trade-signal-skills-openclaw/
 ├── mcporter.json.example      # MCP 连接配置模板
 ├── openclaw.json.example      # Skills 加载配置模板
-├── soul.md                    # AI Soul（默认：均衡型助手）
+├── soul.md                    # AI Soul（可自定义人设）
+├── version.json               # 版本标记
 ├── README.md                  # 完整使用说明
+├── scripts/                   # 工具脚本
+│   ├── check-update.sh        # 版本检测与更新（macOS / Linux）
+│   └── check-update.ps1       # 版本检测与更新（Windows）
 ├── feed/                      # 数据查询技能（6 个）
 │   ├── feed-stock/            # 股票数据（13 个 MCP tools）
 │   ├── feed-market/           # 市场数据（3 个）
@@ -57,7 +65,9 @@ trade-signal-skills-openclaw/
 └── analysis/                  # 分析报告技能（8 个）
 ```
 
-OpenClaw 版所有 SKILL.md 均为自包含文件，无需跟随外部引用。
+OpenClaw 版支持自动更新，使用方式与标准版相同。SKILL.md 均为自包含文件，无需跟随外部引用。
+
+下载后的配置步骤见 [快速开始](/signal-skills/getting-started)。
 
 ---
 
@@ -114,4 +124,38 @@ Signal Skills 提供 **24 个 MCP Tools** 获取金融数据：
 | `get_fund_detail` | 基金详情 |
 | `get_fund_kline` | 基金 K 线 |
 
-下载后的配置步骤见 [快速开始](/signal-skills/getting-started)。
+---
+
+## 版本更新
+
+技能包支持检测新版本并自动更新。
+
+### 检测版本
+
+在技能包目录下运行版本检测脚本：
+
+```bash
+# macOS / Linux
+bash scripts/check-update.sh
+
+# Windows PowerShell
+.\scripts\check-update.ps1
+```
+
+### 自动更新
+
+```bash
+# macOS / Linux
+bash scripts/check-update.sh --update
+# 或
+bash scripts/check-update.sh -u
+
+# Windows PowerShell
+.\scripts\check-update.ps1 -Update
+```
+
+### 更新机制
+
+- **增量更新**：只同步新版本的文件，保留本地修改
+- **强制保留**：`.mcp.json`（API Key）和 `soul.md`（自定义人设）不会被覆盖
+- **更新内容**：`CLAUDE.md`、`.cursorrules`、`.windsurfrules`、技能目录等
