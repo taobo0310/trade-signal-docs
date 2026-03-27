@@ -5,5 +5,6 @@ export default {
   "claude-code": "Claude Code",
   openclaw: "OpenClaw",
   "getting-started": "快速开始",
-  souls: "AI Soul"
+  souls: "AI Soul",
+  changelog: "更新日志"
 };
